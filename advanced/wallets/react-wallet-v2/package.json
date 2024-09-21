@@ -15,6 +15,7 @@
     "@cosmjs/proto-signing": "0.32.3",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@ethersproject/experimental": "^5.7.0",
     "@json-rpc-tools/utils": "1.7.6",
     "@kadena/cryptography-utils": "^0.4.0",
     "@kadena/types": "^0.6.0",

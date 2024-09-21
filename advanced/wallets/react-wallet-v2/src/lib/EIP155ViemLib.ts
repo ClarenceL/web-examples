@@ -1,10 +1,10 @@
-import { createWalletClient, http, WalletClient, HDAccount } from 'viem'
+import { createWalletClient, http, WalletClient, HDAccount, custom } from 'viem'
 import { english, generateMnemonic } from 'viem/accounts'
 import { mnemonicToAccount, hdKeyToAccount } from 'viem/accounts'
-import { mainnet } from 'viem/chains'
+import { sepolia } from 'viem/chains'
 import { providers } from 'ethers'
+import { Eip1193Bridge } from "@ethersproject/experimental";
 import { defineChain, Chain } from 'viem'
-import { send } from 'process'
 
 interface IInitArgs {
     mnemonicArg?: string
@@ -16,7 +16,7 @@ export interface EIP155ViemWallet {
     getAddress(): string
     signMessage(message: string): Promise<string>
     _signTypedData(domain: any, types: any, data: any, _primaryType?: string): Promise<string>
-    connect(provider: providers.JsonRpcProvider): WalletClient
+    connect(provider: providers.JsonRpcProvider): Promise<EIP155ViemWallet>
     signTransaction(transaction: providers.TransactionRequest): Promise<string>
 }
 
@@ -32,19 +32,20 @@ export default class EIP155ViemLib implements EIP155ViemWallet {
         this.mnemonic = mnemonic
         this.account = account
         this.wallet = wallet
+        this.chain = sepolia
     }
 
     static init({ mnemonicArg }: IInitArgs) {
         const mnemonic = mnemonicArg || generateMnemonic(english)
 
         const account = mnemonicToAccount(mnemonic)
-        
+
         const wallet = createWalletClient({
             account,
-            chain: mainnet,
+            chain: sepolia,
             transport: http()
         });
-        
+
         return new EIP155ViemLib(mnemonic, wallet, account)
     }
 
@@ -69,12 +70,7 @@ export default class EIP155ViemLib implements EIP155ViemWallet {
     }
 
     _signTypedData(domain: any, types: any, data: any, _primaryType?: string) {
-
-        if (!this.wallet) {
-            throw new Error("wallet not connected to provider")
-        }
         const primaryType = _primaryType ?? types[0];
-
         return this.wallet.signTypedData({ account: this.account, domain, types, primaryType, message: data })
     }
 
@@ -82,11 +78,42 @@ export default class EIP155ViemLib implements EIP155ViemWallet {
     async connect(provider: providers.JsonRpcProvider) {
         this.provider = provider
 
+        // const network = await provider.getNetwork();
+
+        // console.log('network', network);
+
+        // const chain = defineChain({
+        //     id: network.chainId,
+        //     name: network.name,
+
+        //     // TODO: get this properly
+        //     nativeCurrency: {
+        //         decimals: 18,
+        //         name: network.name,
+        //         symbol: 'ETH',
+        //     },
+        //     rpcUrls: {
+        //         default: {
+        //             http: [provider.connection.url]
+        //         }
+        //     },
+        // })
+
+        // const feeData = await provider.getFeeData();
+
+        // console.log(feeData);
+
+        /*
+        this.provider = provider
+
+        debugger
+
         // extract the chain info and set it
-        console.log(`connecting chainId ${provider.network.chainId} and URL: ${provider.connection.url}`)
+        console.log(`connecting chainId ${provider._network.chainId} and URL: ${provider.connection.url}`, provider)
+        const chainId = provider._network.chainId;
         const chain = defineChain({
-            id: provider.network.chainId,
-            name: provider.network.name,
+            id: chainId,
+            name: provider._network.name,
 
             // TODO: get this properly
             nativeCurrency: {
@@ -105,9 +132,28 @@ export default class EIP155ViemLib implements EIP155ViemWallet {
 
         this.wallet.addChain({chain});
 
-        await this.wallet.switchChain({ id: chain.id }) 
+        await this.wallet.switchChain({ id: chainId }) 
+        */
 
-        return this.wallet;
+        /*
+        console.log('Creating new wallet client');
+
+        const eip1193bridge = new Eip1193Bridge(undefined as any, provider);
+
+        console.log(eip1193bridge);
+
+        const wallet = createWalletClient({
+            account: this.account,
+            chain,
+            transport: custom(eip1193bridge)
+        });
+
+        console.log('DONE Creating new wallet client');
+
+        this.wallet = wallet;
+        */
+
+        return this;
     }
 
     async signTransaction(transaction: providers.TransactionRequest) {
@@ -118,13 +164,28 @@ export default class EIP155ViemLib implements EIP155ViemWallet {
             value: transaction.value as bigint
         });
 
+        console.log('signTransaction', request);
+
         return this.wallet.signTransaction(request)
     }
 
     async sendTransaction(tx: any) {
-        if (!this.wallet) {
-            throw new Error("wallet not connected to provider")
-        }
-        return this.wallet.sendTransaction(tx);
+        console.log('sendTransaction', tx);
+
+        let feeData = await this.provider!.getFeeData();
+
+        console.log('feeData', feeData);
+
+
+        const finalTx = { 
+            from: tx.from,
+            to: tx.to as `0x${string}`,
+            data: tx.data,
+            value: tx.value,
+            maxFeePerGas: feeData.maxFeePerGas,
+            maxPriorityFeePerGas: feeData.maxPriorityFeePerGas,
+         };
+
+        return this.wallet.sendTransaction(finalTx as any);
     }
 } 
