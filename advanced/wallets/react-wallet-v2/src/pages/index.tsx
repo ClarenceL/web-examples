@@ -3,8 +3,8 @@ import AccountPicker from '@/components/AccountPicker'
 import PageHeader from '@/components/PageHeader'
 import { COSMOS_MAINNET_CHAINS } from '@/data/COSMOSData'
 import { EIP155_MAINNET_CHAINS, EIP155_TEST_CHAINS } from '@/data/EIP155Data'
-import { SOLANA_MAINNET_CHAINS, SOLANA_TEST_CHAINS } from '@/data/SolanaData'
-import { POLKADOT_MAINNET_CHAINS, POLKADOT_TEST_CHAINS } from '@/data/PolkadotData'
+// import { SOLANA_MAINNET_CHAINS, SOLANA_TEST_CHAINS } from '@/data/SolanaData'
+// import { POLKADOT_MAINNET_CHAINS, POLKADOT_TEST_CHAINS } from '@/data/PolkadotData'
 import { MULTIVERSX_MAINNET_CHAINS, MULTIVERSX_TEST_CHAINS } from '@/data/MultiversxData'
 import { TRON_MAINNET_CHAINS, TRON_TEST_CHAINS } from '@/data/TronData'
 import { NEAR_TEST_CHAINS } from '@/data/NEARData'
@@ -23,8 +23,8 @@ export default function HomePage() {
     testNets,
     eip155Address,
     cosmosAddress,
-    solanaAddress,
-    polkadotAddress,
+    // solanaAddress,
+    // polkadotAddress,
     nearAddress,
     multiversxAddress,
     tronAddress,
@@ -62,28 +62,6 @@ export default function HomePage() {
           logo={logo}
           rgb={rgb}
           address={cosmosAddress}
-          chainId={caip10}
-          data-testid={'chain-card-' + caip10.toString()}
-        />
-      ))}
-      {Object.entries(SOLANA_MAINNET_CHAINS).map(([caip10, { name, logo, rgb }]) => (
-        <AccountCard
-          key={name}
-          name={name}
-          logo={logo}
-          rgb={rgb}
-          address={solanaAddress}
-          chainId={caip10}
-          data-testid={'chain-card-' + caip10.toString()}
-        />
-      ))}
-      {Object.entries(POLKADOT_MAINNET_CHAINS).map(([caip10, { name, logo, rgb }]) => (
-        <AccountCard
-          key={name}
-          name={name}
-          logo={logo}
-          rgb={rgb}
-          address={polkadotAddress}
           chainId={caip10}
           data-testid={'chain-card-' + caip10.toString()}
         />
@@ -184,28 +162,6 @@ export default function HomePage() {
               )
             }
           })}
-          {Object.entries(SOLANA_TEST_CHAINS).map(([caip10, { name, logo, rgb }]) => (
-            <AccountCard
-              key={name}
-              name={name}
-              logo={logo}
-              rgb={rgb}
-              address={solanaAddress}
-              chainId={caip10}
-              data-testid={'chain-card-' + caip10.toString()}
-            />
-          ))}
-          {Object.entries(POLKADOT_TEST_CHAINS).map(([caip10, { name, logo, rgb }]) => (
-            <AccountCard
-              key={name}
-              name={name}
-              logo={logo}
-              rgb={rgb}
-              address={polkadotAddress}
-              chainId={caip10}
-              data-testid={'chain-card-' + caip10.toString()}
-            />
-          ))}
           {Object.entries(NEAR_TEST_CHAINS).map(([caip10, { name, logo, rgb }]) => (
             <AccountCard
               key={name}

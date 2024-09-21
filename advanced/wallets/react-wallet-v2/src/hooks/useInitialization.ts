@@ -1,8 +1,8 @@
 import SettingsStore from '@/store/SettingsStore'
 import { createOrRestoreCosmosWallet } from '@/utils/CosmosWalletUtil'
 import { createOrRestoreEIP155Wallet } from '@/utils/EIP155WalletUtil'
-import { createOrRestoreSolanaWallet } from '@/utils/SolanaWalletUtil'
-import { createOrRestorePolkadotWallet } from '@/utils/PolkadotWalletUtil'
+// import { createOrRestoreSolanaWallet } from '@/utils/SolanaWalletUtil'
+// import { createOrRestorePolkadotWallet } from '@/utils/PolkadotWalletUtil'
 import { createOrRestoreNearWallet } from '@/utils/NearWalletUtil'
 import { createOrRestoreMultiversxWallet } from '@/utils/MultiversxWalletUtil'
 import { createOrRestoreTronWallet } from '@/utils/TronWalletUtil'
@@ -24,8 +24,8 @@ export default function useInitialization() {
     try {
       const { eip155Addresses, eip155Wallets } = createOrRestoreEIP155Wallet()
       const { cosmosAddresses } = await createOrRestoreCosmosWallet()
-      const { solanaAddresses } = await createOrRestoreSolanaWallet()
-      const { polkadotAddresses } = await createOrRestorePolkadotWallet()
+      // const { solanaAddresses } = await createOrRestoreSolanaWallet()
+      // const { polkadotAddresses } = await createOrRestorePolkadotWallet()
       const { nearAddresses } = await createOrRestoreNearWallet()
       const { multiversxAddresses } = await createOrRestoreMultiversxWallet()
       const { tronAddresses } = await createOrRestoreTronWallet()
@@ -35,8 +35,8 @@ export default function useInitialization() {
 
       SettingsStore.setEIP155Address(eip155Addresses[0])
       SettingsStore.setCosmosAddress(cosmosAddresses[0])
-      SettingsStore.setSolanaAddress(solanaAddresses[0])
-      SettingsStore.setPolkadotAddress(polkadotAddresses[0])
+      // SettingsStore.setSolanaAddress(solanaAddresses[0])
+      // SettingsStore.setPolkadotAddress(polkadotAddresses[0])
       SettingsStore.setNearAddress(nearAddresses[0])
       SettingsStore.setMultiversxAddress(multiversxAddresses[0])
       SettingsStore.setTronAddress(tronAddresses[0])

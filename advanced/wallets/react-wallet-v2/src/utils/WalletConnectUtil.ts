@@ -11,10 +11,10 @@ export async function createWeb3Wallet(relayerRegionURL: string) {
   web3wallet = await Web3Wallet.init({
     core,
     metadata: {
-      name: 'React Wallet Example',
-      description: 'React Wallet for WalletConnect',
-      url: 'https://walletconnect.com/',
-      icons: ['https://avatars.githubusercontent.com/u/37784886']
+      name: 'HyperWallet',
+      description: 'HyperWallet for ETHGlobalSG 2024',
+      url: '',
+      icons: ['']
     }
   })
 

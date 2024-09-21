@@ -5,26 +5,26 @@ import { SignClientTypes } from '@walletconnect/types'
 import DoneIcon from '@mui/icons-material/Done'
 import CloseIcon from '@mui/icons-material/Close'
 import ModalStore from '@/store/ModalStore'
-import { cosmosAddresses } from '@/utils/CosmosWalletUtil'
+// import { cosmosAddresses } from '@/utils/CosmosWalletUtil'
 import { eip155Addresses } from '@/utils/EIP155WalletUtil'
-import { polkadotAddresses } from '@/utils/PolkadotWalletUtil'
-import { multiversxAddresses } from '@/utils/MultiversxWalletUtil'
-import { tronAddresses } from '@/utils/TronWalletUtil'
-import { tezosAddresses } from '@/utils/TezosWalletUtil'
-import { solanaAddresses } from '@/utils/SolanaWalletUtil'
-import { nearAddresses } from '@/utils/NearWalletUtil'
-import { kadenaAddresses } from '@/utils/KadenaWalletUtil'
+// import { polkadotAddresses } from '@/utils/PolkadotWalletUtil'
+// import { multiversxAddresses } from '@/utils/MultiversxWalletUtil'
+// import { tronAddresses } from '@/utils/TronWalletUtil'
+// import { tezosAddresses } from '@/utils/TezosWalletUtil'
+// import { solanaAddresses } from '@/utils/SolanaWalletUtil'
+// import { nearAddresses } from '@/utils/NearWalletUtil'
+// import { kadenaAddresses } from '@/utils/KadenaWalletUtil'
 import { styledToast } from '@/utils/HelperUtil'
 import { web3wallet } from '@/utils/WalletConnectUtil'
 import { EIP155_CHAINS, EIP155_SIGNING_METHODS } from '@/data/EIP155Data'
-import { COSMOS_MAINNET_CHAINS, COSMOS_SIGNING_METHODS } from '@/data/COSMOSData'
-import { KADENA_CHAINS, KADENA_SIGNING_METHODS } from '@/data/KadenaData'
-import { MULTIVERSX_CHAINS, MULTIVERSX_SIGNING_METHODS } from '@/data/MultiversxData'
-import { NEAR_CHAINS, NEAR_SIGNING_METHODS } from '@/data/NEARData'
-import { POLKADOT_CHAINS, POLKADOT_SIGNING_METHODS } from '@/data/PolkadotData'
-import { SOLANA_CHAINS, SOLANA_SIGNING_METHODS } from '@/data/SolanaData'
-import { TEZOS_CHAINS, TEZOS_SIGNING_METHODS } from '@/data/TezosData'
-import { TRON_CHAINS, TRON_SIGNING_METHODS } from '@/data/TronData'
+// import { COSMOS_MAINNET_CHAINS, COSMOS_SIGNING_METHODS } from '@/data/COSMOSData'
+// import { KADENA_CHAINS, KADENA_SIGNING_METHODS } from '@/data/KadenaData'
+// import { MULTIVERSX_CHAINS, MULTIVERSX_SIGNING_METHODS } from '@/data/MultiversxData'
+// import { NEAR_CHAINS, NEAR_SIGNING_METHODS } from '@/data/NEARData'
+// import { POLKADOT_CHAINS, POLKADOT_SIGNING_METHODS } from '@/data/PolkadotData'
+// import { SOLANA_CHAINS, SOLANA_SIGNING_METHODS } from '@/data/SolanaData'
+// import { TEZOS_CHAINS, TEZOS_SIGNING_METHODS } from '@/data/TezosData'
+// import { TRON_CHAINS, TRON_SIGNING_METHODS } from '@/data/TronData'
 import ChainDataMini from '@/components/ChainDataMini'
 import ChainAddressMini from '@/components/ChainAddressMini'
 import { getChainData } from '@/data/chainsUtil'
@@ -69,36 +69,36 @@ export default function SessionProposalModal() {
     const eip7715Methods = Object.values(EIP7715_METHOD)
 
     // cosmos
-    const cosmosChains = Object.keys(COSMOS_MAINNET_CHAINS)
-    const cosmosMethods = Object.values(COSMOS_SIGNING_METHODS)
+    // const cosmosChains = Object.keys(COSMOS_MAINNET_CHAINS)
+    // const cosmosMethods = Object.values(COSMOS_SIGNING_METHODS)
 
     // Kadena
-    const kadenaChains = Object.keys(KADENA_CHAINS)
-    const kadenaMethods = Object.values(KADENA_SIGNING_METHODS)
+    // const kadenaChains = Object.keys(KADENA_CHAINS)
+    // const kadenaMethods = Object.values(KADENA_SIGNING_METHODS)
 
     // multiversx
-    const multiversxChains = Object.keys(MULTIVERSX_CHAINS)
-    const multiversxMethods = Object.values(MULTIVERSX_SIGNING_METHODS)
+    // const multiversxChains = Object.keys(MULTIVERSX_CHAINS)
+    // const multiversxMethods = Object.values(MULTIVERSX_SIGNING_METHODS)
 
     // near
-    const nearChains = Object.keys(NEAR_CHAINS)
-    const nearMethods = Object.values(NEAR_SIGNING_METHODS)
+    // const nearChains = Object.keys(NEAR_CHAINS)
+    // const nearMethods = Object.values(NEAR_SIGNING_METHODS)
 
     // polkadot
-    const polkadotChains = Object.keys(POLKADOT_CHAINS)
-    const polkadotMethods = Object.values(POLKADOT_SIGNING_METHODS)
+    // const polkadotChains = Object.keys(POLKADOT_CHAINS)
+    // const polkadotMethods = Object.values(POLKADOT_SIGNING_METHODS)
 
     // solana
-    const solanaChains = Object.keys(SOLANA_CHAINS)
-    const solanaMethods = Object.values(SOLANA_SIGNING_METHODS)
+    // const solanaChains = Object.keys(SOLANA_CHAINS)
+    // const solanaMethods = Object.values(SOLANA_SIGNING_METHODS)
 
     // tezos
-    const tezosChains = Object.keys(TEZOS_CHAINS)
-    const tezosMethods = Object.values(TEZOS_SIGNING_METHODS)
+    // const tezosChains = Object.keys(TEZOS_CHAINS)
+    // const tezosMethods = Object.values(TEZOS_SIGNING_METHODS)
 
     // tron
-    const tronChains = Object.keys(TRON_CHAINS)
-    const tronMethods = Object.values(TRON_SIGNING_METHODS)
+    // const tronChains = Object.keys(TRON_CHAINS)
+    // const tronMethods = Object.values(TRON_SIGNING_METHODS)
 
     return {
       eip155: {
@@ -109,70 +109,70 @@ export default function SessionProposalModal() {
           .map(chain => eip155Addresses.map(account => `${chain}:${account}`))
           .flat()
       },
-      cosmos: {
-        chains: cosmosChains,
-        methods: cosmosMethods,
-        events: [],
-        accounts: cosmosChains
-          .map(chain => cosmosAddresses.map(address => `${chain}:${address}`))
-          .flat()
-      },
-      kadena: {
-        chains: kadenaChains,
-        methods: kadenaMethods,
-        events: [],
-        accounts: kadenaChains
-          .map(chain => kadenaAddresses.map(address => `${chain}:${address}`))
-          .flat()
-      },
-      mvx: {
-        chains: multiversxChains,
-        methods: multiversxMethods,
-        events: [],
-        accounts: multiversxChains
-          .map(chain => multiversxAddresses.map(address => `${chain}:${address}`))
-          .flat()
-      },
-      near: {
-        chains: nearChains,
-        methods: nearMethods,
-        events: ['accountsChanged', 'chainChanged'],
-        accounts: nearChains
-          .map(chain => nearAddresses.map(address => `${chain}:${address}`))
-          .flat()
-      },
-      polkadot: {
-        chains: polkadotChains,
-        methods: polkadotMethods,
-        events: [],
-        accounts: polkadotChains
-          .map(chain => polkadotAddresses.map(address => `${chain}:${address}`))
-          .flat()
-      },
-      solana: {
-        chains: solanaChains,
-        methods: solanaMethods,
-        events: [],
-        accounts: solanaChains
-          .map(chain => solanaAddresses.map(address => `${chain}:${address}`))
-          .flat()
-      },
-      tezos: {
-        chains: tezosChains,
-        methods: tezosMethods,
-        events: [],
-        accounts: tezosChains
-          .map(chain => tezosAddresses.map(address => `${chain}:${address}`))
-          .flat()
-      },
-      tron: {
-        chains: tronChains,
-        methods: tronMethods,
-        events: [],
-        accounts: tronChains
-          .map(chain => tronAddresses.map(address => `${chain}:${address}`))
-          .flat()
-      }
+      // cosmos: {
+        // chains: cosmosChains,
+        // methods: cosmosMethods,
+        // events: [],
+        // accounts: cosmosChains
+          // .map(chain => cosmosAddresses.map(address => `${chain}:${address}`))
+          // .flat()
+      // },
+      // kadena: {
+        // chains: kadenaChains,
+        // methods: kadenaMethods,
+        // events: [],
+        // accounts: kadenaChains
+          // .map(chain => kadenaAddresses.map(address => `${chain}:${address}`))
+          // .flat()
+      // },
+      // mvx: {
+        // chains: multiversxChains,
+        // methods: multiversxMethods,
+        // events: [],
+        // accounts: multiversxChains
+          // .map(chain => multiversxAddresses.map(address => `${chain}:${address}`))
+          // .flat()
+      // },
+      // near: {
+        // chains: nearChains,
+        // methods: nearMethods,
+        // events: ['accountsChanged', 'chainChanged'],
+        // accounts: nearChains
+          // .map(chain => nearAddresses.map(address => `${chain}:${address}`))
+          // .flat()
+      // },
+      // polkadot: {
+        // chains: polkadotChains,
+        // methods: polkadotMethods,
+        // events: [],
+        // accounts: polkadotChains
+          // .map(chain => polkadotAddresses.map(address => `${chain}:${address}`))
+          // .flat()
+      // },
+      // solana: {
+        // chains: solanaChains,
+        // methods: solanaMethods,
+        // events: [],
+        // accounts: solanaChains
+          // .map(chain => solanaAddresses.map(address => `${chain}:${address}`))
+          // .flat()
+      // },
+      // tezos: {
+        // chains: tezosChains,
+        // methods: tezosMethods,
+        // events: [],
+        // accounts: tezosChains
+          // .map(chain => tezosAddresses.map(address => `${chain}:${address}`))
+          // .flat()
+      // },
+      // tron: {
+        // chains: tronChains,
+        // methods: tronMethods,
+        // events: [],
+        // accounts: tronChains
+          // .map(chain => tronAddresses.map(address => `${chain}:${address}`))
+          // .flat()
+      // }
     }
   }, [])
   console.log('supportedNamespaces', supportedNamespaces, eip155Addresses)
@@ -233,22 +233,22 @@ export default function SessionProposalModal() {
     switch (namespace) {
       case 'eip155':
         return eip155Addresses[0]
-      case 'cosmos':
-        return cosmosAddresses[0]
-      case 'kadena':
-        return kadenaAddresses[0]
-      case 'mvx':
-        return multiversxAddresses[0]
-      case 'near':
-        return nearAddresses[0]
-      case 'polkadot':
-        return polkadotAddresses[0]
-      case 'solana':
-        return solanaAddresses[0]
-      case 'tezos':
-        return tezosAddresses[0]
-      case 'tron':
-        return tronAddresses[0]
+      // case 'cosmos':
+        // return cosmosAddresses[0]
+      // case 'kadena':
+        // return kadenaAddresses[0]
+      // case 'mvx':
+        // return multiversxAddresses[0]
+      // case 'near':
+        // return nearAddresses[0]
+      // case 'polkadot':
+        // return polkadotAddresses[0]
+      // case 'solana':
+        // return solanaAddresses[0]
+      // case 'tezos':
+        // return tezosAddresses[0]
+      // case 'tron':
+        // return tronAddresses[0]
     }
   }, [])
 

@@ -4,8 +4,8 @@ import SessionSendTransactionModal from '@/views/SessionSendTransactionModal'
 import SessionSignCosmosModal from '@/views/SessionSignCosmosModal'
 import SessionRequestModal from '@/views/SessionSignModal'
 import SessionSignNearModal from '@/views/SessionSignNearModal'
-import SessionSignPolkadotModal from '@/views/SessionSignPolkadotModal'
-import SessionSignSolanaModal from '@/views/SessionSignSolanaModal'
+// import SessionSignPolkadotModal from '@/views/SessionSignPolkadotModal'
+// import SessionSignSolanaModal from '@/views/SessionSignSolanaModal'
 import SessionSignMultiversxModal from '@/views/SessionSignMultiversxModal'
 import SessionSignTronModal from '@/views/SessionSignTronModal'
 import SessionSignTezosModal from '@/views/SessionSignTezosModal'
@@ -48,10 +48,10 @@ export default function Modal() {
         return <SessionUnsuportedMethodModal />
       case 'SessionSignCosmosModal':
         return <SessionSignCosmosModal />
-      case 'SessionSignSolanaModal':
-        return <SessionSignSolanaModal />
-      case 'SessionSignPolkadotModal':
-        return <SessionSignPolkadotModal />
+      // case 'SessionSignSolanaModal':
+        // return <SessionSignSolanaModal />
+      // case 'SessionSignPolkadotModal':
+        // return <SessionSignPolkadotModal />
       case 'SessionSignNearModal':
         return <SessionSignNearModal />
       case 'SessionSignMultiversxModal':

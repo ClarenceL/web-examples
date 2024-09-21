@@ -4,7 +4,7 @@ import { EIP155_CHAINS } from './EIP155Data'
 import { KADENA_CHAINS } from './KadenaData'
 import { MULTIVERSX_CHAINS } from './MultiversxData'
 import { NEAR_CHAINS } from './NEARData'
-import { POLKADOT_CHAINS } from './PolkadotData'
+// import { POLKADOT_CHAINS } from './PolkadotData'
 import { SOLANA_CHAINS } from './SolanaData'
 import { TEZOS_CHAINS } from './TezosData'
 import { TRON_CHAINS } from './TronData'
@@ -15,7 +15,7 @@ export const ALL_CHAINS = {
   ...KADENA_CHAINS,
   ...MULTIVERSX_CHAINS,
   ...NEAR_CHAINS,
-  ...POLKADOT_CHAINS,
+  // ...POLKADOT_CHAINS,
   ...SOLANA_CHAINS,
   ...TEZOS_CHAINS,
   ...TRON_CHAINS

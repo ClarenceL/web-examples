@@ -2,8 +2,8 @@ import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { COSMOS_SIGNING_METHODS } from '@/data/COSMOSData'
 import { EIP155_SIGNING_METHODS } from '@/data/EIP155Data'
 import { EIP5792_METHODS } from '@/data/EIP5792Data'
-import { SOLANA_SIGNING_METHODS } from '@/data/SolanaData'
-import { POLKADOT_SIGNING_METHODS } from '@/data/PolkadotData'
+// import { SOLANA_SIGNING_METHODS } from '@/data/SolanaData'
+// import { POLKADOT_SIGNING_METHODS } from '@/data/PolkadotData'
 import { MULTIVERSX_SIGNING_METHODS } from '@/data/MultiversxData'
 import { TRON_SIGNING_METHODS } from '@/data/TronData'
 import ModalStore from '@/store/ModalStore'
@@ -103,14 +103,14 @@ export default function useWalletConnectEventsManager(initialized: boolean) {
         case COSMOS_SIGNING_METHODS.COSMOS_SIGN_AMINO:
           return ModalStore.open('SessionSignCosmosModal', { requestEvent, requestSession })
 
-        case SOLANA_SIGNING_METHODS.SOLANA_SIGN_MESSAGE:
-        case SOLANA_SIGNING_METHODS.SOLANA_SIGN_TRANSACTION:
-        case SOLANA_SIGNING_METHODS.SOLANA_SIGN_AND_SEND_TRANSACTION:
-          return ModalStore.open('SessionSignSolanaModal', { requestEvent, requestSession })
-
-        case POLKADOT_SIGNING_METHODS.POLKADOT_SIGN_MESSAGE:
-        case POLKADOT_SIGNING_METHODS.POLKADOT_SIGN_TRANSACTION:
-          return ModalStore.open('SessionSignPolkadotModal', { requestEvent, requestSession })
+        // case SOLANA_SIGNING_METHODS.SOLANA_SIGN_MESSAGE:
+        // case SOLANA_SIGNING_METHODS.SOLANA_SIGN_TRANSACTION:
+        // case SOLANA_SIGNING_METHODS.SOLANA_SIGN_AND_SEND_TRANSACTION:
+          // return ModalStore.open('SessionSignSolanaModal', { requestEvent, requestSession })
+// 
+        // case POLKADOT_SIGNING_METHODS.POLKADOT_SIGN_MESSAGE:
+        // case POLKADOT_SIGNING_METHODS.POLKADOT_SIGN_TRANSACTION:
+          // return ModalStore.open('SessionSignPolkadotModal', { requestEvent, requestSession })
 
         case NEAR_SIGNING_METHODS.NEAR_SIGN_IN:
         case NEAR_SIGNING_METHODS.NEAR_SIGN_OUT:
