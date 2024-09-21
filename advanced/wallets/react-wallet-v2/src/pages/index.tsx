@@ -20,19 +20,24 @@ import ChainAbstractionBalanceCard from '@/components/ChainAbstractionBalanceCar
 
 export default function HomePage() {
   const {
-    testNets,
+    // testNets,
     eip155Address,
-    cosmosAddress,
+    // cosmosAddress,
     // solanaAddress,
     // polkadotAddress,
-    nearAddress,
-    multiversxAddress,
-    tronAddress,
-    tezosAddress,
-    kadenaAddress,
-    smartAccountEnabled,
-    chainAbstractionEnabled
+    // nearAddress,
+    // multiversxAddress,
+    // tronAddress,
+    // tezosAddress,
+    // kadenaAddress,
+    // smartAccountEnabled,
+    // chainAbstractionEnabled
   } = useSnapshot(SettingsStore.state)
+  
+  // TEMP
+  const testNets = true;
+  const smartAccountEnabled = false;
+
   const { getAvailableSmartAccounts } = useSmartAccounts()
   const { push } = useRouter()
   return (
@@ -40,7 +45,7 @@ export default function HomePage() {
       <PageHeader title="Accounts">
         <AccountPicker data-testid="account-picker" />
       </PageHeader>
-      {chainAbstractionEnabled ? <ChainAbstractionBalanceCard /> : null}
+      {/* {chainAbstractionEnabled ? <ChainAbstractionBalanceCard /> : null} 
       <Text h4 css={{ marginBottom: '$5' }}>
         Mainnets
       </Text>
@@ -109,7 +114,7 @@ export default function HomePage() {
           chainId={caip10}
           data-testid={'chain-card-' + caip10.toString()}
         />
-      ))}
+      ))} */}
 
       {testNets ? (
         <Fragment>
@@ -162,7 +167,7 @@ export default function HomePage() {
               )
             }
           })}
-          {Object.entries(NEAR_TEST_CHAINS).map(([caip10, { name, logo, rgb }]) => (
+          {/* {Object.entries(NEAR_TEST_CHAINS).map(([caip10, { name, logo, rgb }]) => (
             <AccountCard
               key={name}
               name={name}
@@ -216,7 +221,7 @@ export default function HomePage() {
               chainId={caip10}
               data-testid={'chain-card-' + caip10.toString()}
             />
-          ))}
+          ))} */}
         </Fragment>
       ) : null}
     </Fragment>

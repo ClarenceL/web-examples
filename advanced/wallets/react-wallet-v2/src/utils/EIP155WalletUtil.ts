@@ -1,10 +1,11 @@
-import EIP155Lib from '@/lib/EIP155Lib'
+import EIP155ViemLib from '@/lib/EIP155ViemLib'
 import { smartAccountWallets } from './SmartAccountUtil'
 import { getWalletAddressFromParams } from './HelperUtil'
+import SettingsStore from '@/store/SettingsStore'
 
-export let wallet1: EIP155Lib
-export let wallet2: EIP155Lib
-export let eip155Wallets: Record<string, EIP155Lib>
+export let wallet1: EIP155ViemLib
+export let wallet2: EIP155ViemLib
+export let eip155Wallets: Record<string, EIP155ViemLib>
 export let eip155Addresses: string[]
 
 let address1: string
@@ -18,11 +19,11 @@ export function createOrRestoreEIP155Wallet() {
   const mnemonic2 = localStorage.getItem('EIP155_MNEMONIC_2')
 
   if (mnemonic1 && mnemonic2) {
-    wallet1 = EIP155Lib.init({ mnemonic: mnemonic1 })
-    wallet2 = EIP155Lib.init({ mnemonic: mnemonic2 })
+    wallet1 = EIP155ViemLib.init({ mnemonicArg: mnemonic1 })
+    wallet2 = EIP155ViemLib.init({ mnemonicArg: mnemonic2 })
   } else {
-    wallet1 = EIP155Lib.init({})
-    wallet2 = EIP155Lib.init({})
+    wallet1 = EIP155ViemLib.init({})
+    wallet2 = EIP155ViemLib.init({})
 
     // Don't store mnemonic in local storage in a production project!
     localStorage.setItem('EIP155_MNEMONIC_1', wallet1.getMnemonic())
@@ -44,11 +45,13 @@ export function createOrRestoreEIP155Wallet() {
   }
 }
 
+//TODO: Get wallet, EOA returns EIP155Lib which is similar to a viem account with various functions like getAddress, signTransaction etc...
 /**
  * Get wallet for the address in params
  */
 export const getWallet = async (params: any) => {
   const eoaWallet = eip155Wallets[getWalletAddressFromParams(eip155Addresses, params)]
+
   if (eoaWallet) {
     return eoaWallet
   }

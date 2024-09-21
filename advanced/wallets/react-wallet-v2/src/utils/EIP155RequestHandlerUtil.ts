@@ -14,8 +14,10 @@ export async function approveEIP155Request(requestEvent: RequestEventArgs) {
   const { params, id } = requestEvent
   const { chainId, request } = params
 
+  // this causes issues because getWallet's chain value needs to change reactively to this
   SettingsStore.setActiveChainId(chainId)
 
+  // getWallet dynamically fetches a wallet based on SettingsStore.activeChainId
   const wallet = await getWallet(params)
 
   switch (request.method) {
