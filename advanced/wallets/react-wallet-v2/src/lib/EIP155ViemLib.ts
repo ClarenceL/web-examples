@@ -1,208 +1,86 @@
-import { createWalletClient, http, WalletClient, HDAccount, custom } from 'viem'
+import { createWalletClient, http, WalletClient, HDAccount, custom, Account, Address } from 'viem'
 import { english, generateMnemonic } from 'viem/accounts'
 import { mnemonicToAccount, hdKeyToAccount } from 'viem/accounts'
 import { sepolia, scrollSepolia, bscTestnet, baseSepolia, optimismGoerli } from 'viem/chains'
-import { providers } from 'ethers'
+import { providers, Wallet } from 'ethers'
 import { Chain } from 'viem'
 import SettingsStore from '@/store/SettingsStore'
 import { subscribeKey } from 'valtio/utils'
+import { EIP155Wallet } from './EIP155Lib'
+import { TransactionRequest, TransactionResponse } from '@ethersproject/providers'
 
 interface IInitArgs {
     mnemonicArg?: string
 }
 
-export interface EIP155ViemWallet {
-    getMnemonic(): string
-    getPrivateKey(): string
-    getAddress(): string
-    signMessage(message: string): Promise<string>
-    _signTypedData(domain: any, types: any, data: any, _primaryType?: string): Promise<string>
-    connect(provider: providers.JsonRpcProvider): Promise<EIP155ViemWallet>
-    signTransaction(transaction: providers.TransactionRequest): Promise<string>
-}
-
-export default class EIP155ViemLib implements EIP155ViemWallet {
-    account: HDAccount
+/**
+ * Library
+ */
+export default class EIP155ViemLib implements EIP155Wallet {
     mnemonic: string
-    provider?: providers.JsonRpcProvider
-    address?: string
-    chain?: Chain
+    account: Account
 
-    constructor(mnemonic: string, account: HDAccount) {
-        this.mnemonic = mnemonic
-        this.account = account
-
-        // default
-        this.chain = optimismGoerli
-
-        subscribeKey(SettingsStore.state, 'activeChainId', (eip155chainId) => {
-            this.setChain(parseInt(eip155chainId.split(':')[1]));
-        })
-
+    constructor(mnemonic: string) {
+        this.mnemonic = mnemonic;
+        this.account = mnemonicToAccount(mnemonic);
     }
 
     static init({ mnemonicArg }: IInitArgs) {
         const mnemonic = mnemonicArg || generateMnemonic(english)
-
-        const account = mnemonicToAccount(mnemonic)
-
-        return new EIP155ViemLib(mnemonic, account)
+        return new EIP155ViemLib(mnemonic)
     }
 
-    getMnemonic() {
-        return this.mnemonic;
+    getMnemonic(): string {
+        return this.mnemonic
     }
 
-    getPrivateKey() {
-        // Only used for smartAccounts
-        throw new Error('EIP155 - getPrivateKey');
-        return '';
+    getPrivateKey(): string {
+        throw new Error("Unsupported getPrivateKey")
     }
 
-    getAddress() {
+    getAddress(): string {
         return this.account.address;
     }
 
-    signMessage(message: string) {
-
-        const wallet = createWalletClient({
-            account: this.account,
-            chain: this.chain,
-            transport: http()
-        });
-
-        return wallet.signMessage({
-            message
-        })
+    signMessage(message: string): Promise<string> {
+        throw new Error("Unsupported signMessage()")
     }
 
-    _signTypedData(domain: any, types: any, data: any, _primaryType?: string) {
-        const primaryType = _primaryType ?? types[0];
-
-        const wallet = createWalletClient({
-            account: this.account,
-            chain: this.chain,
-            transport: http()
-        });
-
-        return wallet.signTypedData({ account: this.account, domain, types, primaryType, message: data })
+    _signTypedData(domain: any, types: any, data: any, _primaryType?: string): Promise<string> {
+        throw new Error("Unsupported _signTypedData()")
     }
 
-    setChain(chainId: number) {
-        switch (chainId) {
-
-            case 11155111:
-                this.chain = sepolia;
-                break;
-
-            case 97:
-                this.chain = bscTestnet;
-                break;
-
-            case 534351:
-                this.chain = scrollSepolia;
-                break;
-
-            case 84532:
-                this.chain = baseSepolia;
-                break;
-
-            case 420:
-                this.chain = optimismGoerli;
-                break;
-
-            default:
-                throw new Error(`connect provider's chainId: ${chainId} not supported`);
+    connect(provider: providers.JsonRpcProvider): Wallet {
+        const request = function request({ method, params }: { method: string, params?: any[] }) {
+            return provider.send(method, params ?? [])
         }
+        const transport = custom({ request })
 
+        const walletClient = createWalletClient({
+            account: this.account,
+            transport
+        })
+
+        const mockWallet = {
+            async sendTransaction(transaction: TransactionRequest): Promise<TransactionResponse> {
+                const hash = await walletClient.sendTransaction({
+                    to: transaction.to as Address | undefined,
+                    //@ts-expect-error
+                    value: transaction.value ? BigInt(transaction.value) : 0n,
+                    chain: null
+                })
+                //@ts-expect-error
+                return {
+                    from: walletClient.account.address,
+                    hash
+                }
+            }
+        } as Pick<Wallet, "sendTransaction">
+
+        return mockWallet as Wallet;
     }
 
-    // we just set the provider so we can use the chainId
-    async connect(provider: providers.JsonRpcProvider) {
-
-        this.provider = provider
-
-        const network = await provider.getNetwork();
-
-        this.setChain(network.chainId);
-
-        console.log(`Connecting to ${network.chainId}`)
-
-        /*
-        console.log('Creating new wallet client');
-
-        const eip1193bridge = new Eip1193Bridge(undefined as any, provider);
-
-        console.log(eip1193bridge);
-
-        const wallet = createWalletClient({
-            account: this.account,
-            chain,
-            transport: custom(eip1193bridge)
-        });
-
-        console.log('DONE Creating new wallet client');
-        
-        const wallet = createWalletClient({
-            account: this.account,
-            chain: this.chain,
-            transport: http()
-        });
-        */
-
-        return this;
+    signTransaction(transaction: providers.TransactionRequest): Promise<string> {
+        throw new Error("Unsupported signTransaction()")
     }
-
-    async signTransaction(transaction: providers.TransactionRequest) {
-        const wallet = createWalletClient({
-            account: this.account,
-            chain: this.chain,
-            transport: http()
-        });
-
-        const request = await wallet.prepareTransactionRequest({
-            chain: this.chain,
-            to: transaction.to as `0x{string}`,
-            value: transaction.value as bigint
-        });
-
-        console.log('signTransaction', request);
-
-        return wallet.signTransaction(request)
-    }
-
-    async sendTransaction(tx: any) {
-        console.log('sendTransaction', tx);
-
-        const wallet = createWalletClient({
-            account: this.account,
-            chain: this.chain,
-            transport: http()
-        });
-
-        /*
-        const publicClient = createPublicClient({
-            chain: baseSepolia,
-            transport: http()
-        });
-
-        const gasPrice = await publicClient.getGasPrice();
-
-        console.log('gasPrice', gasPrice);
-
-        const finalTx = {
-            from: tx.from as `0x${string}`,
-            to: tx.to as `0x${string}`,
-            data: tx.data,
-            value: tx.value,
-            // gasPrice,
-            // maxFeePerGas: feeData.maxFeePerGas,
-            // maxPriorityFeePerGas: feeData.maxPriorityFeePerGas,
-        };
-
-        console.log(finalTx);
-        */
-
-        return wallet.sendTransaction(tx);
-    }
-} 
+}
