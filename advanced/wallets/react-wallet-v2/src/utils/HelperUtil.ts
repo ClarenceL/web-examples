@@ -66,6 +66,7 @@ export function getSignTypedDataParamsData(params: string[]) {
   return data
 }
 
+//TODO: Get wallet address (seems to format them and return the last one in the array?)
 /**
  * Get our address from params checking if params string contains one
  * of our wallet addresses

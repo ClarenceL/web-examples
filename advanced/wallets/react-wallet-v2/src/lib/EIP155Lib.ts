@@ -16,6 +16,13 @@ export interface EIP155Wallet {
   signTransaction(transaction: providers.TransactionRequest): Promise<string>
 }
 
+//TODO: Wallet (signer) class, need to convert a viem walletClient to something with a similar interface
+//TODO: Instead of taking an ethers Wallet in the constructor, it should take a viem Account
+// you can create a viem Account from a mnemonic using https://viem.sh/docs/accounts/local/mnemonicToAccount
+// the connect() function is important as unlike ethers, viem decouples accounts from wallets (connected to chain)
+// - connect() should keep track internally of the ethers provider
+// - the provider can then be used to get the necessary chainId for operations like signTransaction
+
 /**
  * Library
  */

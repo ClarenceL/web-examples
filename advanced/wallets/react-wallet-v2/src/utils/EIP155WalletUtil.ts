@@ -44,6 +44,7 @@ export function createOrRestoreEIP155Wallet() {
   }
 }
 
+//TODO: Get wallet, EOA returns EIP155Lib which is similar to a viem account with various functions like getAddress, signTransaction etc...
 /**
  * Get wallet for the address in params
  */
