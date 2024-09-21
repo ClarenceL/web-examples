@@ -48,6 +48,7 @@ export default function useWalletConnectEventsManager(initialized: boolean) {
   const onSessionRequest = useCallback(
     async (requestEvent: SignClientTypes.EventArguments['session_request']) => {
       const { topic, params, verifyContext, id } = requestEvent
+      console.log('onSessionRequest requestEvent', requestEvent)
       const { request } = params
       const requestSession = web3wallet.engine.signClient.session.get(topic)
       // set the verify context so it can be displayed in the projectInfoCard

@@ -16,6 +16,8 @@ export async function approveEIP155Request(requestEvent: RequestEventArgs) {
 
   SettingsStore.setActiveChainId(chainId)
 
+  // TODO: replace the return of getWallet with our own ethers compatible viem SDK
+  // this is later connected to a provider: const connectedWallet = await wallet.connect(provider)
   const wallet = await getWallet(params)
 
   switch (request.method) {
@@ -65,6 +67,7 @@ export async function approveEIP155Request(requestEvent: RequestEventArgs) {
       try {
         const provider = new providers.JsonRpcProvider(EIP155_CHAINS[chainId as TEIP155Chain].rpc)
         const sendTransaction = request.params[0]
+        // TODO: this is an ethers wallet 
         const connectedWallet = await wallet.connect(provider)
         const hash = await connectedWallet.sendTransaction(sendTransaction)
         const receipt = typeof hash === 'string' ? hash : hash?.hash // TODO improve interface

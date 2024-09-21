@@ -31,7 +31,7 @@ export default function useInitialization() {
       const { tronAddresses } = await createOrRestoreTronWallet()
       const { tezosAddresses } = await createOrRestoreTezosWallet()
       const { kadenaAddresses } = await createOrRestoreKadenaWallet()
-      await initializeSmartAccounts(eip155Wallets[eip155Addresses[0]].getPrivateKey())
+      // await initializeSmartAccounts(eip155Wallets[eip155Addresses[0]].getPrivateKey())
 
       SettingsStore.setEIP155Address(eip155Addresses[0])
       SettingsStore.setCosmosAddress(cosmosAddresses[0])
