@@ -1,6 +1,7 @@
 import EIP155ViemLib from '@/lib/EIP155ViemLib'
 import { smartAccountWallets } from './SmartAccountUtil'
 import { getWalletAddressFromParams } from './HelperUtil'
+import SettingsStore from '@/store/SettingsStore'
 
 export let wallet1: EIP155ViemLib
 export let wallet2: EIP155ViemLib
@@ -50,6 +51,7 @@ export function createOrRestoreEIP155Wallet() {
  */
 export const getWallet = async (params: any) => {
   const eoaWallet = eip155Wallets[getWalletAddressFromParams(eip155Addresses, params)]
+
   if (eoaWallet) {
     return eoaWallet
   }

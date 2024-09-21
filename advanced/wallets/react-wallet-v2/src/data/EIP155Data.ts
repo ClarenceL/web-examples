@@ -81,41 +81,41 @@ export const EIP155_MAINNET_CHAINS: Record<string, EIP155Chain> = {
 }
 
 export const EIP155_TEST_CHAINS: Record<string, EIP155Chain> = {
-  'eip155:5': {
-    chainId: 5,
-    name: 'Ethereum Goerli',
-    logo: '/chain-logos/eip155-1.png',
-    rgb: '99, 125, 234',
-    rpc: 'https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
-    namespace: 'eip155',
-    smartAccountEnabled: true
-  },
-  'eip155:11155111': {
-    chainId: 11155111,
-    name: 'Ethereum Sepolia',
-    logo: '/chain-logos/eip155-1.png',
-    rgb: '99, 125, 234',
-    rpc: 'https://rpc2.sepolia.org',
-    namespace: 'eip155',
-    smartAccountEnabled: true
-  },
-  'eip155:43113': {
-    chainId: 43113,
-    name: 'Avalanche Fuji',
-    logo: '/chain-logos/eip155-43113.png',
-    rgb: '232, 65, 66',
-    rpc: 'https://api.avax-test.network/ext/bc/C/rpc',
-    namespace: 'eip155'
-  },
-  'eip155:80001': {
-    chainId: 80001,
-    name: 'Polygon Mumbai',
-    logo: '/chain-logos/eip155-137.png',
-    rgb: '130, 71, 229',
-    rpc: 'https://matic-mumbai.chainstacklabs.com',
-    namespace: 'eip155',
-    smartAccountEnabled: true
-  },
+  // 'eip155:5': {
+  //   chainId: 5,
+  //   name: 'Ethereum Goerli',
+  //   logo: '/chain-logos/eip155-1.png',
+  //   rgb: '99, 125, 234',
+  //   rpc: 'https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
+  //   namespace: 'eip155',
+  //   smartAccountEnabled: true
+  // },
+  // 'eip155:11155111': {
+  //   chainId: 11155111,
+  //   name: 'Ethereum Sepolia',
+  //   logo: '/chain-logos/eip155-1.png',
+  //   rgb: '99, 125, 234',
+  //   rpc: 'https://rpc2.sepolia.org',
+  //   namespace: 'eip155',
+  //   smartAccountEnabled: true
+  // },
+  // 'eip155:43113': {
+  //   chainId: 43113,
+  //   name: 'Avalanche Fuji',
+  //   logo: '/chain-logos/eip155-43113.png',
+  //   rgb: '232, 65, 66',
+  //   rpc: 'https://api.avax-test.network/ext/bc/C/rpc',
+  //   namespace: 'eip155'
+  // },
+  // 'eip155:80001': {
+  //   chainId: 80001,
+  //   name: 'Polygon Mumbai',
+  //   logo: '/chain-logos/eip155-137.png',
+  //   rgb: '130, 71, 229',
+  //   rpc: 'https://matic-mumbai.chainstacklabs.com',
+  //   namespace: 'eip155',
+  //   smartAccountEnabled: true
+  // },
   'eip155:420': {
     chainId: 420,
     name: 'Optimism Goerli',
@@ -124,22 +124,22 @@ export const EIP155_TEST_CHAINS: Record<string, EIP155Chain> = {
     rpc: 'https://goerli.optimism.io',
     namespace: 'eip155'
   },
-  'eip155:11155420': {
-    chainId: 11155420,
-    name: 'Optimism Sepolia',
-    logo: '/chain-logos/eip155-10.png',
-    rgb: '235, 0, 25',
-    rpc: 'https://sepolia.optimism.io	',
-    namespace: 'eip155'
-  },
-  'eip155:280': {
-    chainId: 280,
-    name: 'zkSync Era Testnet',
-    logo: '/chain-logos/eip155-324.svg',
-    rgb: '242, 242, 242',
-    rpc: 'https://testnet.era.zksync.dev/',
-    namespace: 'eip155'
-  },
+  // 'eip155:11155420': {
+  //   chainId: 11155420,
+  //   name: 'Optimism Sepolia',
+  //   logo: '/chain-logos/eip155-10.png',
+  //   rgb: '235, 0, 25',
+  //   rpc: 'https://sepolia.optimism.io	',
+  //   namespace: 'eip155'
+  // },
+  // 'eip155:280': {
+  //   chainId: 280,
+  //   name: 'zkSync Era Testnet',
+  //   logo: '/chain-logos/eip155-324.svg',
+  //   rgb: '242, 242, 242',
+  //   rpc: 'https://testnet.era.zksync.dev/',
+  //   namespace: 'eip155'
+  // },
   'eip155:84532': {
     chainId: 84532,
     name: 'Base Sepolia',
@@ -148,10 +148,28 @@ export const EIP155_TEST_CHAINS: Record<string, EIP155Chain> = {
     rpc: 'https://sepolia.base.org',
     namespace: 'eip155',
     smartAccountEnabled: true
+  },
+  'eip155:534351': {
+    chainId: 534351,
+    name: 'Scroll Sepolia',
+    logo: '/chain-logos/scroll-mark.svg',
+    rgb: '241, 241, 241',
+    rpc: 'https://sepolia-rpc.scroll.io',
+    namespace: 'eip155',
+    smartAccountEnabled: true
+  },
+  'eip155:97': {
+    chainId: 97,
+    name: 'BSC Testnet',
+    logo: '/chain-logos/bnb.png',
+    rgb: '241, 241, 0',
+    rpc: 'https://endpoints.omniatech.io/v1/bsc/testnet/public',
+    namespace: 'eip155',
+    smartAccountEnabled: true
   }
 }
 
-export const EIP155_CHAINS = { ...EIP155_MAINNET_CHAINS, ...EIP155_TEST_CHAINS }
+export const EIP155_CHAINS = { ...EIP155_TEST_CHAINS }
 
 /**
  * Methods

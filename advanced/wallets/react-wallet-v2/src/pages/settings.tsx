@@ -3,7 +3,7 @@ import RelayRegionPicker from '@/components/RelayRegionPicker'
 import SettingsStore from '@/store/SettingsStore'
 import { cosmosWallets } from '@/utils/CosmosWalletUtil'
 import { eip155Wallets } from '@/utils/EIP155WalletUtil'
-import { solanaWallets } from '@/utils/SolanaWalletUtil'
+// import { solanaWallets } from '@/utils/SolanaWalletUtil'
 import { multiversxWallets } from '@/utils/MultiversxWalletUtil'
 import { tronWallets } from '@/utils/TronWalletUtil'
 import { kadenaWallets } from '@/utils/KadenaWalletUtil'
@@ -205,12 +205,12 @@ export default function SettingsPage() {
         <Text css={{ fontFamily: '$mono' }}>{cosmosWallets[cosmosAddress].getMnemonic()}</Text>
       </Card>
 
-      <Text h4 css={{ marginTop: '$10', marginBottom: '$5' }}>
+      {/* <Text h4 css={{ marginTop: '$10', marginBottom: '$5' }}>
         Solana Secret Key
       </Text>
       <Card bordered borderWeight="light" css={{ minHeight: '215px', wordWrap: 'break-word' }}>
         <Text css={{ fontFamily: '$mono' }}>{solanaWallets[solanaAddress].getSecretKey()}</Text>
-      </Card>
+      </Card> */}
 
       <Text h4 css={{ marginTop: '$10', marginBottom: '$5' }}>
         MultiversX Mnemonic

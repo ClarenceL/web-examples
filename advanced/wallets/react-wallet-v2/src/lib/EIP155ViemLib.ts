@@ -1,10 +1,11 @@
 import { createWalletClient, http, WalletClient, HDAccount, custom } from 'viem'
 import { english, generateMnemonic } from 'viem/accounts'
 import { mnemonicToAccount, hdKeyToAccount } from 'viem/accounts'
-import { baseSepolia } from 'viem/chains'
+import { scrollSepolia, bscTestnet, baseSepolia, optimismGoerli } from 'viem/chains'
 import { providers } from 'ethers'
-// import { Eip1193Bridge } from "@ethersproject/experimental";
-import { defineChain, Chain, createPublicClient } from 'viem'
+import { Chain } from 'viem'
+import SettingsStore from '@/store/SettingsStore'
+import { subscribe } from 'valtio'
 
 interface IInitArgs {
     mnemonicArg?: string
@@ -21,7 +22,7 @@ export interface EIP155ViemWallet {
 }
 
 export default class EIP155ViemLib implements EIP155ViemWallet {
-    wallet: WalletClient
+    // wallet: WalletClient
     account: HDAccount
     mnemonic: string
     provider?: providers.JsonRpcProvider
@@ -31,8 +32,13 @@ export default class EIP155ViemLib implements EIP155ViemWallet {
     constructor(mnemonic: string, wallet: WalletClient, account: HDAccount) {
         this.mnemonic = mnemonic
         this.account = account
-        this.wallet = wallet
-        this.chain = baseSepolia
+        // this.wallet = wallet
+
+        // default
+        this.chain = scrollSepolia
+
+        subscribe(SettingsStore.state, () => console.log('state.obj has changed to', SettingsStore.state))
+
     }
 
     static init({ mnemonicArg }: IInitArgs) {
@@ -42,7 +48,7 @@ export default class EIP155ViemLib implements EIP155ViemWallet {
 
         const wallet = createWalletClient({
             account,
-            chain: baseSepolia,
+            chain: scrollSepolia,
             transport: http()
         });
 
@@ -54,6 +60,7 @@ export default class EIP155ViemLib implements EIP155ViemWallet {
     }
 
     getPrivateKey() {
+        // Only used for smartAccounts
         throw new Error('EIP155 - getPrivateKey');
         return '';
     }
@@ -63,77 +70,65 @@ export default class EIP155ViemLib implements EIP155ViemWallet {
     }
 
     signMessage(message: string) {
-        return this.wallet.signMessage({
+
+        const wallet = createWalletClient({
             account: this.account,
+            chain: this.chain,
+            transport: http()
+        });
+
+        return wallet.signMessage({
             message
         })
     }
 
     _signTypedData(domain: any, types: any, data: any, _primaryType?: string) {
         const primaryType = _primaryType ?? types[0];
-        return this.wallet.signTypedData({ account: this.account, domain, types, primaryType, message: data })
+
+        const wallet = createWalletClient({
+            account: this.account,
+            chain: this.chain,
+            transport: http()
+        });
+
+        return wallet.signTypedData({ account: this.account, domain, types, primaryType, message: data })
+    }
+
+    setChain(chainId: number) {
+        switch (chainId) {
+
+            case 97:
+                this.chain = bscTestnet;
+                break;
+
+            case 534351:
+                this.chain = scrollSepolia;
+                break;
+
+            case 84532:
+                this.chain = baseSepolia;
+                break;
+
+            case 420:
+                this.chain = optimismGoerli;
+                break;
+
+            default:
+                throw new Error(`connect provider's chainId: ${chainId} not supported`);
+        }
+
     }
 
     // we just set the provider so we can use the chainId
     async connect(provider: providers.JsonRpcProvider) {
+
         this.provider = provider
 
-        // const network = await provider.getNetwork();
+        const network = await provider.getNetwork();
 
-        // console.log('network', network);
+        this.setChain(network.chainId);
 
-        // const chain = defineChain({
-        //     id: network.chainId,
-        //     name: network.name,
-
-        //     // TODO: get this properly
-        //     nativeCurrency: {
-        //         decimals: 18,
-        //         name: network.name,
-        //         symbol: 'ETH',
-        //     },
-        //     rpcUrls: {
-        //         default: {
-        //             http: [provider.connection.url]
-        //         }
-        //     },
-        // })
-
-        // const feeData = await provider.getFeeData();
-
-        // console.log(feeData);
-
-        /*
-        this.provider = provider
-
-        debugger
-
-        // extract the chain info and set it
-        console.log(`connecting chainId ${provider._network.chainId} and URL: ${provider.connection.url}`, provider)
-        const chainId = provider._network.chainId;
-        const chain = defineChain({
-            id: chainId,
-            name: provider._network.name,
-
-            // TODO: get this properly
-            nativeCurrency: {
-                decimals: 18,
-                name: 'Ether',
-                symbol: 'ETH',
-            },
-            rpcUrls: {
-                default: {
-                    http: [provider.connection.url]
-                }
-            },
-        })
-
-        this.chain = chain;
-
-        this.wallet.addChain({chain});
-
-        await this.wallet.switchChain({ id: chainId }) 
-        */
+        console.log(`Connecting to ${network.chainId}`)
 
         /*
         console.log('Creating new wallet client');
@@ -149,16 +144,25 @@ export default class EIP155ViemLib implements EIP155ViemWallet {
         });
 
         console.log('DONE Creating new wallet client');
-
-        this.wallet = wallet;
+        
+        const wallet = createWalletClient({
+            account: this.account,
+            chain: this.chain,
+            transport: http()
+        });
         */
 
         return this;
     }
 
     async signTransaction(transaction: providers.TransactionRequest) {
-        const request = await this.wallet.prepareTransactionRequest({
+        const wallet = createWalletClient({
             account: this.account,
+            chain: this.chain,
+            transport: http()
+        });
+
+        const request = await wallet.prepareTransactionRequest({
             chain: this.chain,
             to: transaction.to as `0x{string}`,
             value: transaction.value as bigint
@@ -166,11 +170,17 @@ export default class EIP155ViemLib implements EIP155ViemWallet {
 
         console.log('signTransaction', request);
 
-        return this.wallet.signTransaction(request)
+        return wallet.signTransaction(request)
     }
 
     async sendTransaction(tx: any) {
         console.log('sendTransaction', tx);
+
+        const wallet = createWalletClient({
+            account: this.account,
+            chain: this.chain,
+            transport: http()
+        });
 
         /*
         const publicClient = createPublicClient({
@@ -195,6 +205,6 @@ export default class EIP155ViemLib implements EIP155ViemWallet {
         console.log(finalTx);
         */
 
-        return this.wallet.sendTransaction(tx);
+        return wallet.sendTransaction(tx);
     }
 } 

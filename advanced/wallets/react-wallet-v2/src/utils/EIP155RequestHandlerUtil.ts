@@ -14,10 +14,10 @@ export async function approveEIP155Request(requestEvent: RequestEventArgs) {
   const { params, id } = requestEvent
   const { chainId, request } = params
 
+  // this causes issues because getWallet's chain value needs to change reactively to this
   SettingsStore.setActiveChainId(chainId)
 
-  // TODO: replace the return of getWallet with our own ethers compatible viem SDK
-  // this is later connected to a provider: const connectedWallet = await wallet.connect(provider)
+  // getWallet dynamically fetches a wallet based on SettingsStore.activeChainId
   const wallet = await getWallet(params)
 
   switch (request.method) {
