@@ -1,10 +1,10 @@
 import { createWalletClient, http, WalletClient, HDAccount, custom } from 'viem'
 import { english, generateMnemonic } from 'viem/accounts'
 import { mnemonicToAccount, hdKeyToAccount } from 'viem/accounts'
-import { sepolia } from 'viem/chains'
+import { baseSepolia } from 'viem/chains'
 import { providers } from 'ethers'
-import { Eip1193Bridge } from "@ethersproject/experimental";
-import { defineChain, Chain } from 'viem'
+// import { Eip1193Bridge } from "@ethersproject/experimental";
+import { defineChain, Chain, createPublicClient } from 'viem'
 
 interface IInitArgs {
     mnemonicArg?: string
@@ -32,7 +32,7 @@ export default class EIP155ViemLib implements EIP155ViemWallet {
         this.mnemonic = mnemonic
         this.account = account
         this.wallet = wallet
-        this.chain = sepolia
+        this.chain = baseSepolia
     }
 
     static init({ mnemonicArg }: IInitArgs) {
@@ -42,7 +42,7 @@ export default class EIP155ViemLib implements EIP155ViemWallet {
 
         const wallet = createWalletClient({
             account,
-            chain: sepolia,
+            chain: baseSepolia,
             transport: http()
         });
 
@@ -172,20 +172,29 @@ export default class EIP155ViemLib implements EIP155ViemWallet {
     async sendTransaction(tx: any) {
         console.log('sendTransaction', tx);
 
-        let feeData = await this.provider!.getFeeData();
+        /*
+        const publicClient = createPublicClient({
+            chain: baseSepolia,
+            transport: http()
+        });
 
-        console.log('feeData', feeData);
+        const gasPrice = await publicClient.getGasPrice();
 
+        console.log('gasPrice', gasPrice);
 
-        const finalTx = { 
-            from: tx.from,
+        const finalTx = {
+            from: tx.from as `0x${string}`,
             to: tx.to as `0x${string}`,
             data: tx.data,
             value: tx.value,
-            maxFeePerGas: feeData.maxFeePerGas,
-            maxPriorityFeePerGas: feeData.maxPriorityFeePerGas,
-         };
+            // gasPrice,
+            // maxFeePerGas: feeData.maxFeePerGas,
+            // maxPriorityFeePerGas: feeData.maxPriorityFeePerGas,
+        };
 
-        return this.wallet.sendTransaction(finalTx as any);
+        console.log(finalTx);
+        */
+
+        return this.wallet.sendTransaction(tx);
     }
 } 
