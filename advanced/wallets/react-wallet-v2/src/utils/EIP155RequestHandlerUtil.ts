@@ -67,7 +67,6 @@ export async function approveEIP155Request(requestEvent: RequestEventArgs) {
       try {
         const provider = new providers.JsonRpcProvider(EIP155_CHAINS[chainId as TEIP155Chain].rpc)
         const sendTransaction = request.params[0]
-        // TODO: this is an ethers wallet 
         const connectedWallet = await wallet.connect(provider)
         const hash = await connectedWallet.sendTransaction(sendTransaction)
         const receipt = typeof hash === 'string' ? hash : hash?.hash // TODO improve interface

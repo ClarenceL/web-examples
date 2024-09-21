@@ -1,11 +1,11 @@
 import { createWalletClient, http, WalletClient, HDAccount, custom } from 'viem'
 import { english, generateMnemonic } from 'viem/accounts'
 import { mnemonicToAccount, hdKeyToAccount } from 'viem/accounts'
-import { scrollSepolia, bscTestnet, baseSepolia, optimismGoerli } from 'viem/chains'
+import { sepolia, scrollSepolia, bscTestnet, baseSepolia, optimismGoerli } from 'viem/chains'
 import { providers } from 'ethers'
 import { Chain } from 'viem'
 import SettingsStore from '@/store/SettingsStore'
-import { subscribe } from 'valtio'
+import { subscribeKey } from 'valtio/utils'
 
 interface IInitArgs {
     mnemonicArg?: string
@@ -22,22 +22,22 @@ export interface EIP155ViemWallet {
 }
 
 export default class EIP155ViemLib implements EIP155ViemWallet {
-    // wallet: WalletClient
     account: HDAccount
     mnemonic: string
     provider?: providers.JsonRpcProvider
     address?: string
     chain?: Chain
 
-    constructor(mnemonic: string, wallet: WalletClient, account: HDAccount) {
+    constructor(mnemonic: string, account: HDAccount) {
         this.mnemonic = mnemonic
         this.account = account
-        // this.wallet = wallet
 
         // default
-        this.chain = scrollSepolia
+        this.chain = optimismGoerli
 
-        subscribe(SettingsStore.state, () => console.log('state.obj has changed to', SettingsStore.state))
+        subscribeKey(SettingsStore.state, 'activeChainId', (eip155chainId) => {
+            this.setChain(parseInt(eip155chainId.split(':')[1]));
+        })
 
     }
 
@@ -46,13 +46,7 @@ export default class EIP155ViemLib implements EIP155ViemWallet {
 
         const account = mnemonicToAccount(mnemonic)
 
-        const wallet = createWalletClient({
-            account,
-            chain: scrollSepolia,
-            transport: http()
-        });
-
-        return new EIP155ViemLib(mnemonic, wallet, account)
+        return new EIP155ViemLib(mnemonic, account)
     }
 
     getMnemonic() {
@@ -96,6 +90,10 @@ export default class EIP155ViemLib implements EIP155ViemWallet {
 
     setChain(chainId: number) {
         switch (chainId) {
+
+            case 11155111:
+                this.chain = sepolia;
+                break;
 
             case 97:
                 this.chain = bscTestnet;

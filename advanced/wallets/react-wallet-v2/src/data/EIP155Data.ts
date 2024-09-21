@@ -90,15 +90,15 @@ export const EIP155_TEST_CHAINS: Record<string, EIP155Chain> = {
   //   namespace: 'eip155',
   //   smartAccountEnabled: true
   // },
-  // 'eip155:11155111': {
-  //   chainId: 11155111,
-  //   name: 'Ethereum Sepolia',
-  //   logo: '/chain-logos/eip155-1.png',
-  //   rgb: '99, 125, 234',
-  //   rpc: 'https://rpc2.sepolia.org',
-  //   namespace: 'eip155',
-  //   smartAccountEnabled: true
-  // },
+  'eip155:11155111': {
+    chainId: 11155111,
+    name: 'Ethereum Sepolia',
+    logo: '/chain-logos/eip155-1.png',
+    rgb: '99, 125, 234',
+    rpc: 'https://rpc2.sepolia.org',
+    namespace: 'eip155',
+    smartAccountEnabled: true
+  },
   // 'eip155:43113': {
   //   chainId: 43113,
   //   name: 'Avalanche Fuji',
@@ -116,14 +116,14 @@ export const EIP155_TEST_CHAINS: Record<string, EIP155Chain> = {
   //   namespace: 'eip155',
   //   smartAccountEnabled: true
   // },
-  'eip155:420': {
-    chainId: 420,
-    name: 'Optimism Goerli',
-    logo: '/chain-logos/eip155-10.png',
-    rgb: '235, 0, 25',
-    rpc: 'https://goerli.optimism.io',
-    namespace: 'eip155'
-  },
+  // 'eip155:420': {
+  //   chainId: 420,
+  //   name: 'Optimism Goerli',
+  //   logo: '/chain-logos/eip155-10.png',
+  //   rgb: '235, 0, 25',
+  //   rpc: 'https://goerli.optimism.io',
+  //   namespace: 'eip155'
+  // },
   // 'eip155:11155420': {
   //   chainId: 11155420,
   //   name: 'Optimism Sepolia',
